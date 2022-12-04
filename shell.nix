@@ -15,6 +15,17 @@ let
     ${extraConfig};
   '';
 
+  # gruvbox-material color scheme
+  gruvbox-material = pkgs.vimUtils.buildVimPlugin {
+    name = "gruvbox-material";
+    src = pkgs.fetchFromGitHub {
+      owner = "sainnhe";
+      repo = "gruvbox-material";
+      rev = "af9a1d60ca4d7e2ca34c55c46d1dbea0769d9244";
+      sha256 = "11lvqr8g9rwkpb768l2pc65j1r55lrb7410hbprca5qdcpz3n720";
+    };
+  };
+
   # bat.vim syntax highlighting:
   bat-vim = pkgs.vimUtils.buildVimPlugin {
     name = "bat.vim";
@@ -33,6 +44,7 @@ let
         packages.packages = with pkgs.vimPlugins; {
           start = [
             bat-vim
+            gruvbox-material
             nvim-lspconfig
             (nvim-treesitter.withPlugins (
               plugins: with plugins; [
@@ -47,9 +59,11 @@ let
 in
 mkShell {
   nativeBuildInputs = [
-    go_1_18
+    go
     gopls
     overriden-neovim
+    zsh-nix-shell
     tmux
+    starship
   ];
 }
